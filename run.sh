@@ -26,8 +26,8 @@ fi
 
 echo " Using: $PYTHON"
 
-# Install dependencies
-$PYTHON -m pip install playwright pynput --quiet
+# Install dependencies (pynput excluded — needs Python 3.9+ on Mac)
+$PYTHON -m pip install playwright --quiet
 
 # Install browser
 echo " Setting up browser (first time only, may take a minute)..."

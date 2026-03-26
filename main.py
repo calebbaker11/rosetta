@@ -47,8 +47,10 @@ def _ensure_playwright():
         import playwright  # noqa: F401
     except ImportError:
         print("[Setup] playwright not found — installing now…")
+        # Note: pynput is intentionally excluded here because it requires
+        # Python 3.9+ on Mac.  Hotkeys will simply be disabled if unavailable.
         subprocess.check_call([sys.executable, "-m", "pip", "install",
-                               "playwright", "pynput"])
+                               "playwright"])
         print("[Setup] playwright installed.")
 
     # 2. Make sure the Chromium binary is present.
