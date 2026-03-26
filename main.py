@@ -5,11 +5,10 @@ Rosetta Stone Automation Bot  v2
 Automatically completes click-based activities (multiple-choice, image
 matching).  Skips speaking and typing.  Pauses when unsure.
 
-HOW TO RUN
+HOW TO RUN  (only two commands, ever)
 ----------
-  1.  pip install -r requirements.txt
-  2.  python3 -m playwright install chromium
-  3.  python3 main.py
+  1.  pip install playwright pynput        ← or:  pip3 install playwright pynput
+  2.  python3 main.py                      ← the script installs the browser for you
 
 HOTKEYS  (work even when the browser window is in focus)
 --------
@@ -24,10 +23,52 @@ HOTKEYS  (work even when the browser window is in focus)
 import json
 import logging
 import os
+import subprocess
 import sys
 import time
 import threading
 from datetime import datetime
+
+# ─── Auto-setup: install playwright + chromium before anything else ───────────
+def _ensure_playwright():
+    """
+    Check that playwright is installed and that the Chromium browser binary
+    exists.  If either is missing, install/download it automatically.
+    This runs before the rest of the script so the user never has to type
+    extra commands.
+    """
+    # 1. Make sure the playwright Python package is installed.
+    try:
+        import playwright  # noqa: F401
+    except ImportError:
+        print("[Setup] playwright not found — installing now…")
+        subprocess.check_call([sys.executable, "-m", "pip", "install",
+                               "playwright", "pynput"])
+        print("[Setup] playwright installed.")
+
+    # 2. Make sure the Chromium binary is present.
+    try:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as pw:
+            # Just check the executable path — don't launch yet.
+            exe = pw.chromium.executable_path
+            if not os.path.exists(exe):
+                raise FileNotFoundError(exe)
+        print("[Setup] Chromium OK.")
+    except Exception:
+        print("[Setup] Chromium browser not found — downloading now "
+              "(this only happens once, may take a minute)…")
+        result = subprocess.run(
+            [sys.executable, "-m", "playwright", "install", "chromium"],
+            capture_output=False,
+        )
+        if result.returncode != 0:
+            print("\n[Setup] Auto-download failed.  Try running this manually:")
+            print("        python3 -m playwright install chromium")
+            sys.exit(1)
+        print("[Setup] Chromium installed.")
+
+_ensure_playwright()
 from pathlib import Path
 
 # ─── Third-party ─────────────────────────────────────────────────────────────
