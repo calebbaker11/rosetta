@@ -5,10 +5,15 @@ Rosetta Stone Automation Bot  v2
 Automatically completes click-based activities (multiple-choice, image
 matching).  Skips speaking and typing.  Pauses when unsure.
 
-HOW TO RUN  (only two commands, ever)
+HOW TO RUN
 ----------
-  1.  pip install playwright pynput        ← or:  pip3 install playwright pynput
-  2.  python3 main.py                      ← the script installs the browser for you
+  Windows : double-click  run.bat
+  Mac/Linux: open Terminal, type  bash run.sh
+
+  Manual fallback:
+    pip install playwright pynput
+    python main.py          (Windows)
+    python3 main.py         (Mac/Linux)
 
 HOTKEYS  (work even when the browser window is in focus)
 --------
