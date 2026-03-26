@@ -1,1 +1,2 @@
 playwright>=1.40.0
+pynput>=1.7.6

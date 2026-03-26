@@ -1,0 +1,22 @@
+{
+    "_comment": "Rosetta Stone Bot — edit these values to tune behaviour",
+
+    "rosetta_url":          "https://totale.rosettastone.com/",
+    "login_timeout":        120,
+    "max_screens":          1000,
+    "slow_mo":              50,
+
+    "confidence_threshold": 0.55,
+
+    "click_delay":          0.8,
+    "retry_count":          3,
+    "retry_delay":          2.0,
+
+    "auto_skip_speaking":   true,
+    "auto_skip_typing":     true,
+    "auto_skip_reorder":    false,
+
+    "require_approval":     false,
+
+    "screenshot_on_error":  true
+}
